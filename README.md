@@ -1,11 +1,11 @@
 # SPOTER Embeddings
 
-This repository contains code for the Spoter embedding model
+This repository provides code for the SPOTER embedding model.
 <!-- explained in this [blog post](link...). -->
-The model is heavily based on [Spoter] which was presented in
-[Sign Pose-Based Transformer for Word-Level Sign Language Recognition](https://openaccess.thecvf.com/content/WACV2022W/HADCV/html/Bohacek_Sign_Pose-Based_Transformer_for_Word-Level_Sign_Language_Recognition_WACVW_2022_paper.html) with one of the main modifications being
-that this is an embedding model instead of a classification model.
-This allows for several zero-shot tasks on unseen Sign Language datasets from around the world.
+The model is built the Sign Pose-Based Transformer [SPOTER] approach presented in
+[Sign Pose-Based Transformer for Word-Level Sign Language Recognition](https://openaccess.thecvf.com/content/WACV2022W/HADCV/html/Bohacek_Sign_Pose-Based_Transformer_for_Word-Level_Sign_Language_Recognition_WACVW_2022_paper.html)but with a slight modification - 
+it operates as an embedding model instead of a classification model.
+This enables zero-shot capabilities on new Sign Language datasets from around the world.
 <!-- More details about this are shown in the blog post mentioned above. -->
 
 <!-- ## Results -->
@@ -13,9 +13,9 @@ This allows for several zero-shot tasks on unseen Sign Language datasets from ar
 
 <!--  Also link the product blog here -->
 
-## Get Started
+## Getting Started
 
-The recommended way of running code from this repo is by using **Docker**.
+The best way of running code from this repo is by using **Docker**.
 
 Clone this repository and run:
 ```
@@ -25,7 +25,7 @@ docker run --rm -it --entrypoint=bash --gpus=all -v $PWD:/app spoter_embeddings
 
 > Running without specifying the `entrypoint` will train the model with the hyperparameters specified in `train.sh`
 
-If you prefer running in a **virtual environment** instead, then first install dependencies:
+If you prefer running in a **virtual environment**, then start by installing dependencies:
 
 ```shell
 pip install -r requirements.txt
@@ -40,14 +40,13 @@ The hyperparameters with their descriptions can be found in the [train.py](link.
 Same as with SPOTER, this model works on top of sequences of signers' skeletal data extracted from videos.
 This means that the input data has a much lower dimension compared to using videos directly, and therefore the model is
 quicker and lighter, while you can choose any SOTA body pose model to preprocess video.
-This makes our model lightweight and able to run in real-time (for example, it takes around 40ms to process a 4-second
-25 FPS video inside a web browser using onnxruntime)
+This results in a much lower input dimension, making the model faster and more efficient, with real-time processing capabilities (e.g. processinga 4-second 25 FPS video takes approximately 40ms using onnxruntime within a web browser).
 
 ![Alt Text](http://spoter.signlanguagerecognition.com/img/datasets_overview.gif)
 
-For ready to use datasets refer to the [Spoter] repository.
+For ready-to-use datasets refer to the [SPOTER] repository.
 
-For best results, we recommend building your own dataset by downloading a Sign language video dataset such as [WLASL] and then using the `extract_mediapipe_landmarks.py` and `create_wlasl_landmarks_dataset.py` scripts to create a body keypoints datasets that can be used to train the Spoter embeddings model.
+For optimum results, we recommend building your own dataset by downloading a Sign language video dataset such as [WLASL] and then using the `extract_mediapipe_landmarks.py` and `create_wlasl_landmarks_dataset.py` scripts to create body keypoints datasets that can be used to train the Spoter embeddings model.
 
 You can run these scripts as follows:
 ```bash
@@ -65,13 +64,13 @@ There are two Jupyter notebooks included in the `notebooks` folder.
 
 
 ## Modifications on [SPOTER](https://github.com/matyasbohacek/spoter)
-Here is a list of the main modifications made on Spoter code and model architecture:
+Here is a list of the main modifications made on SPOTER code and model architecture:
 
 * The output layer is a linear layer but trained using triplet loss instead of CrossEntropyLoss. The output of the model
 is therefore an embedding vector that can be used for several downstream tasks.
-* We started using the keypoints dataset published by Spoter but later created new datasets using BlazePose from Mediapipe (as it is done in [Spoter 2](https://arxiv.org/abs/2210.00893)). This improves results considerably.
-* We select batches in a way that they contain several hard triplets and then compute the loss on all hard triplets found in each batch.
-* Some code refactoring to acomodate new classes we implemented.
+* We started using the keypoints dataset published by SPOTER but later created new datasets using BlazePose from Mediapipe (as seen in [Spoter 2](https://arxiv.org/abs/2210.00893)). This improves results considerably.
+* We select batches so that they contain several hard triplets and then compute the loss on all hard triplets found in each batch.
+* We implemented some code refactoring to acomodate new classes.
 * Minor code fix when using rotate augmentation to avoid exceptions.
 
 ## Tracking experiments with ClearML
@@ -99,5 +98,5 @@ relevant License and copyright notice is included, our work is cited and all cha
 The license for the [WLASL](https://arxiv.org/pdf/1910.11006.pdf) and [LSA64](https://core.ac.uk/download/pdf/76495887.pdf) datasets used for experiments is, however, the [Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/) license which allows only for non-commercial usage.
 
 
-[Spoter]: (https://github.com/matyasbohacek/spoter)
+[SPOTER]: (https://github.com/matyasbohacek/spoter)
 [WLASL]: (https://dxli94.github.io/WLASL/)
